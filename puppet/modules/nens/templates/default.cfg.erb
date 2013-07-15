@@ -1,0 +1,5 @@
+[buildout]
+executable = /usr/bin/python
+eggs-directory = /home/<%= scope.lookupvar("nens::user") %>/.buildout/eggs
+download-cache = /home/<%= scope.lookupvar("nens::user") %>/.buildout/downloads
+extends-cache = /home/<%= scope.lookupvar("nens::user") %>/.buildout/extends
