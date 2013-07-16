@@ -1,3 +1,7 @@
 venv
 *.pyc
 .DS_Store
+lizardnxt/bin/
+lizardnxt/include/
+lizardnxt/local/
+lizardnxt/lib/
