@@ -1,5 +1,4 @@
 venv
-Vagrantfile
 *.pyc
 .vagrant
 .DS_Store
@@ -7,3 +6,4 @@ lizardnxt/bin/
 lizardnxt/include/
 lizardnxt/local/
 lizardnxt/lib/
+Vagrantfile
