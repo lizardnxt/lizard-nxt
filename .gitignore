@@ -1,4 +1,5 @@
 venv
+Vagrantfile
 *.pyc
 .vagrant
 .DS_Store
