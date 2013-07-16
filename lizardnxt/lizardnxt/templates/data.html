@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% set active_page = "data" %}
+
+
+{% block page_title %} - Data{% endblock page_title %}
+
+{% block content %}
+    <div class="container">
+
+      <div class="row" id="data">
+          <div class="span7">
+            <div class="btn-group">
+              <a href="/{{user.username}}/data/import"><button class="btn btn-success">Nieuwe data importeren</button></a>
+            </div>    
+            <div class="btn-group">
+              <button class="btn">Mijn data</button>
+              <button class="btn">Gedeeld met mij</button>
+              <button class="btn"><i class="icon-star"></i></button>
+            </div>          
+            <div class="btn-group">
+              <button class="btn"><i class="icon-list"></i></button>
+              <button class="btn"><i class="icon-th"></i></button>
+            </div>          
+            
+          </div>
+          <div class="search-select pull-right">
+            <select data-placeholder="Search/Select" class="chzn-select" multiple tabindex="6">
+              <optgroup label="Language">
+                <option data-filter="Tekst">Tekst</option>
+                <option data-filter="Kaart">Kaart</option>
+                <option data-filter="Tijdserie">Tijdserie</option>
+                <option data-filter="Public">Public</option>                
+              </optgroup>            
+            </select>
+          </div>
+      </div>
+
+
+      <div class="row" id="catalog">
+        <div class="span12">
+          {% for doc in docs %}
+          <div class="dataset-container element Text Kaart isotope-item">
+            <div class="dataset">
+              <div class="dataset-header Kaart">
+                <h2 class="dataset-title"> <i class="icon-map-marker"></i>&nbsp; <a href="/{{user.username}}/data/{{ doc.id }}">  {{ doc.name }} </a> </h2>
+                <h3 class="dataset-language Kaart"> Kaartdata </h3>
+              </div>
+              <p class="dataset-description">
+                {{ doc.description }}
+              </p>
+              <p class="stats">
+                <span class="icon-file">&nbsp; MB </span> 
+                <span class="icon-star">&nbsp;  </span>
+              </p>
+            </div>
+          </div>
+          {% endfor %}        
+        </div>
+      </div>
+    
+    
+    
+    
+    </div> <!-- /container -->
+{% endblock content %}
+
+
+{% block extra_body %}
+<link href="/static/css/chosen.css" rel="stylesheet" media="screen">
+<script src="/static/js/chosen.min.js"></script>
+<script src="/static/js/isotope.min.js"></script>
+<script>
+$(function () {
+
+  $(".chzn-select").chosen();
+  var e = $("#catalog");
+  e.isotope({
+      itemSelector: ".element",
+      layoutMode: "masonry"
+  }), $(".dataset-language").click(function () {
+      var e = this.innerHTML.replace(/ /g, "");
+      return $("select").val(e).trigger("liszt:updated").change(), window.location.hash = e, !1
+  }), $("select").change(function () {
+      var t = [],
+          n = [];
+      t = $("select option:selected"), t.each(function () {
+          var e = $(this).data("filter");
+          n.push("." + $(this).data("filter"))
+      });
+      var r = n.join("");
+      return e.isotope({
+          filter: r
+      }), window.location.hash = n.join(",").replace(/\./g, ""), !1
+  }), $(window).smartresize(function () {
+      e.isotope("reLayout")
+  }), $(document).ready(function () {
+      var e = window.location.hash;
+      e !== null && e != "" && ($("select").val(e.replace(/#/, "").split(",")), $("select").trigger("liszt:updated").change())
+  }), $(document).ready(function () {
+      function s(e) {
+          window.clearInterval(r), e && (r = setInterval(o, t))
+      }
+
+      function o() {
+          $("select").val(choices[n]), $("select").trigger("liszt:updated").change(), n < i.length - 1 ? n++ : n = 0
+      }
+
+      var e = !1,
+          t = 3e3,
+          n = 0,
+          choices = ["Tekst", "Kaart", "Tijdserie", "Public", ""];
+
+  })
+
+});
+</script>
+{% endblock extra_body %}

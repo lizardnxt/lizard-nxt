@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% set active_page = "data" %}
+
+{% block page_title %} - Data{% endblock page_title %}
+
+{% block content %}
+    <div class="container">
+
+
+      <div class="row" id="admin-header">
+        <div class="span12">
+          <div class="btn-toolbar pull-right">
+            <div class="btn-group">
+              <a class="btn" href="/{{user.username}}/data/{{doc.id }}"><i class="icon-eye-open"></i>&nbsp;Bekijken</a>            
+              <a class="btn" href="/{{user.username}}/data/{{doc.id }}/settings"><i class="icon-wrench"></i>&nbsp;Instellingen</a>
+              <a class="btn disabled btn-info" href="/{{user.username}}/data/{{doc.id }}/access"><i class="icon-share-alt"></i>&nbsp;Toegang</a>
+            </div>
+          </div>
+          <h3><i class="icon-map-marker"></i>&nbsp;{{ doc.name }}</h3>
+        </div>        
+      </div>
+      
+      <div class="row">
+        <div class="span2 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix">
+            <li><a href="/{{user.username}}/data/{{doc.id }}/settings"> <i class="icon-cog small"></i>&nbsp;Instellingen</a></li>
+            <li class="active"><a href="/{{user.username}}/data/{{doc.id }}/access"> <i class="icon-group"></i>&nbsp;Toegang</a></li>
+          </ul>
+        </div>
+        <div class="span10">
+
+          <table class="table">
+            <thead>
+              <tr style="background:#fff;">
+                <th style="background:#fff;">Link</th>
+              </tr>
+            </thead>          
+            <tbody>
+            <tr style="background:#fff;">
+              <td style="vertical-align:middle;">
+                <input class="input-block-level" type="text" value="http://lizard.net/s/mmd332ssx/">
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+
+          <table class="table table-bordered">
+            <thead>
+              <tr style="background:#fff;">
+                <th style="background:#fff;">Iedereen met toegang</th>
+                <th style="background:#fff;">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+            
+            <tr style="background:#fff;">
+              <td style="width:210px;vertical-align:middle;">
+                <i class="icon-male icon-large"></i>&nbsp;&nbsp;<a href="#">Gijs Nijholt</a> (dit bent u)
+              </td>
+              <td>
+                <div class="btn-toolbar">
+                  <div class="btn-group">
+                    <div class="btn-group">
+                      <button class="btn dropdown-toggle" data-toggle="dropdown">Lezen &amp; schrijven <span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        <li><a href="#">Lezen &amp; schrijven</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>          
+              </td>
+            </tr>
+                     
+            <!--
+            <tr style="background:#fff;">
+              <td style="width:210px;vertical-align:middle;">
+                <i class="icon-male icon-large"></i>&nbsp;&nbsp;<a href="#">Jeroen de Koning</a>
+              </td>
+              <td>
+                <div class="btn-toolbar">
+                  <div class="btn-group">
+                    <div class="btn-group">
+                      <button class="btn dropdown-toggle" data-toggle="dropdown">Alleen lezen <span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        <li><a href="#">Alleen lezen</a></li>
+                        <li><a href="#">Lezen &amp; schrijven</a></li>
+                      </ul>
+                    </div>
+                    <a class="btn btn-danger" href="data-postcodes.html"><i class="icon-remove"></i>&nbsp;Toegang intrekken</a>            
+                  </div>
+                </div>          
+              </td>
+            </tr> -->
+            
+
+            
+            </tbody>
+          </table>
+
+
+          <table class="table">
+            <tbody>
+            
+            <tr style="background:#fff;">
+              <td style="width:300px;vertical-align:middle;">
+                <input type="text" placeholder="E-mailadres">
+              </td>
+              <td>
+                <div class="btn-toolbar">
+                  <div class="btn-group">
+                    <div class="btn-group">
+                      <button class="btn dropdown-toggle" data-toggle="dropdown">Alleen lezen <span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        <li><a href="#">Alleen lezen</a></li>
+                        <li><a href="#">Lezen &amp; schrijven</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>          
+              </td>
+            </tr>
+            <tr style="background:#fff;">
+              <td><button class="btn">Nieuwe toevoegen</button></td>
+              <td>&nbsp;</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    
+    
+    
+    </div> <!-- /container -->
+{% endblock content %}
+
+
+{% block extra_body %}
+{% endblock extra_body %}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lizard Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/css/nxt.css" rel="stylesheet" media="screen">
+    <!-- Bootplus -->
+    <link href="/static/css/bootplus.min.css" rel="stylesheet" media="screen">
+    <link href="/static/css/bootplus-responsive.min.css" rel="stylesheet" media="screen">
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="/static/css/bootplus-ie7.min.css">
+    <![endif]-->
+      <style type="text/css">
+      body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #E5E5E5;
+      }
+
+      .form-signin {
+         border: 1px solid #D8D8D8;
+         border-bottom-width: 2px;
+         border-top-width: 0;
+         background-color: #FFF;
+         max-width: 350px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #F5F5F5;
+        -webkit-border-radius: 3px;
+           -moz-border-radius: 3px;
+                border-radius: 3px;
+      }
+      .form-signin .form-signin-heading {
+         font-size: 24px;
+         font-weight: 300;
+      }
+
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+        margin-bottom: 10px;
+      }
+      .form-signin input[type="text"],
+      .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+      }
+
+      </style>    
+  </head>
+  <body>
+  	<span id="lizardribbon"><a href="http://lizard.net/">Lizard Platform</a></span>
+    <div class="container">
+
+<!--      <form class="form-signin" action="/login" method="post">
+        <h2 class="form-signin-heading">Inloggen</h2>
+        
+        <input type="text" class="input-block-level" placeholder="Emailadres">
+        <input type="password" class="input-block-level" placeholder="Password">
+        <label class="checkbox">
+          <input type="checkbox" value="remember-me"> Onthouden
+        </label>
+        <button class="btn btn-primary" type="submit">
+           Log in
+           <i class="icon-circle-arrow-right"></i>
+        </button>
+      </form>
+-->
+
+<form class="form-signin" action="/login" method="post">
+    {{ form.csrf_token }}
+    {{ form.email.label }} {{ form.email(size=20,class="input-block-level",placeholder="E-mailadres") }}
+    {{ form.password.label }} {{ form.password(size=20,class="input-block-level",placeholder="Password") }}
+    <button class="btn btn-primary" type="submit">
+       Log in
+       <i class="icon-circle-arrow-right"></i>
+    </button>
+</form>
+    </div> <!-- /container -->
+    
+    
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+  </body>
+</html>
+

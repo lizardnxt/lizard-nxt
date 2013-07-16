@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% set active_page = "data" %}
+
+{% block page_title %} - Data{% endblock page_title %}
+
+{% block content %}
+    <div class="container">
+
+      <div class="row" id="catalog">
+        <div class="span12">
+        
+          <div class="btn-toolbar pull-right">
+            <div class="btn-group">
+              <a class="btn disabled" href=""><i class="icon-eye-open"></i>&nbsp;Bekijken</a>
+              <a class="btn" href="/{{user.username}}/data/{{ doc.id }}/settings"><i class="icon-wrench"></i>&nbsp;Instellingen</a>
+              <a class="btn btn-info" href="/{{user.username}}/data/{{ doc.id }}/access"><i class="icon-share-alt"></i>&nbsp;Toegang</a>
+            </div>
+          </div>          
+          <h3><i class="icon-map-marker"></i>&nbsp;{{ doc.name }}</h3>
+          
+          <ul class="nav nav-tabs" id="myTab">
+            <li class="active"><a href="#tabular" data-toggle="tab">Tabel</a></li>
+            <li><a href="#spatial" data-toggle="tab">Kaart</a></li>
+            <!--<li><a href="#temportal" data-toggle="tab">Tijdserie</a></li>-->
+          </ul>          
+          
+          <div class="tab-content">
+            <div class="tab-pane active" id="tabular">
+              <div id="datatable">
+                <div class="spinner offset4" id="spinner" style="width:200px;height:200px;"></div>
+              </div>      
+            </div>
+            <div class="tab-pane" id="spatial">
+               <div id="map" style="height:700px;"></div>
+            </div>
+            <div class="tab-pane" id="temportal">
+               Temporal
+            </div>            
+          </div>        
+        
+        </div>
+      </div>
+    
+    </div> <!-- /container -->
+{% endblock content %}
+
+
+{% block extra_body %}
+    <!-- Leaflet -->
+   <link rel="stylesheet" href="/static/css/leaflet.css" />
+   <link rel="stylesheet" href="/static/css/MarkerCluster.css" />
+   <link rel="stylesheet" href="/static/css/MarkerCluster.Default.css" />
+   <!--[if lte IE 8]>
+       <link rel="stylesheet" href="/static/css/leaflet.ie.css" />
+       <link rel="stylesheet" href="/static/css/MarkerCluster.Default.ie.css" />
+   <![endif]-->  
+    
+    <link href="/static/css/nxt.css" rel="stylesheet" media="screen"> 
+    <link href="/static/css/jquery.dataTables.css" rel="stylesheet" media="screen">
+    <script src="/static/js/spin.min.js"></script>
+    <script src="/static/js/leaflet.js"></script>
+    <script src="/static/js/leaflet.markercluster-src.js"></script>
+    <script src="/static/js/jquery.dataTables.js"></script>
+    <script src="/static/js/DT_bootstrap.js"></script>
+    <script src="/static/js/tabletop/src/tabletop.js"></script>
+    <script src="/static/js/d3.v3.js" charset="utf-8"></script>
+    <script src="/static/js/rickshaw.js" charset="utf-8"></script>
+    <script>
+
+    var opts = {
+      lines: 13, // The number of lines to draw
+      length: 20, // The length of each line
+      width: 10, // The line thickness
+      radius: 30, // The radius of the inner circle
+      corners: 1, // Corner roundness (0..1)
+      rotate: 0, // The rotation offset
+      direction: 1, // 1: clockwise, -1: counterclockwise
+      color: '#000', // #rgb or #rrggbb
+      speed: 1, // Rounds per second
+      trail: 60, // Afterglow percentage
+      shadow: false, // Whether to render a shadow
+      hwaccel: false, // Whether to use hardware acceleration
+      className: 'spinner', // The CSS class to assign to the spinner
+      zIndex: 2e9, // The z-index (defaults to 2000000000)
+      top: 'auto', // Top position relative to parent in px
+      left: 'auto' // Left position relative to parent in px
+    };
+    var target = $('.spinner')[0];
+    var spinner = new Spinner(opts).spin(target);
+
+
+
+    var map = L.map('map').setView([52.16719363541221,5.718383789062499], 7);
+    window.leaflet = map;
+    new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    $('#myTab a[href="#spatial"]').on('shown', function(){
+        window.leaflet.invalidateSize();
+     });
+
+
+    $(document).ready(function() {
+
+        initializeTabletopObject('{{ doc.url }}');
+
+        function initializeTabletopObject(dataSpreadsheet) {
+            Tabletop.init({
+                key: dataSpreadsheet,
+                callback: writeTableWith,
+                simpleSheet: true,
+                debug: false
+            });
+        }
+
+        function createTableColumns(keys) {
+            var tableColumns = [];
+            for(key in keys) {
+              tableColumns.push({'mDataProp': keys[key], 'sTitle': keys[key], 'sClass': 'center'});
+            }
+            return tableColumns;
+        }
+
+        function writeTableWith(dataSource){
+
+            $('#datatable').html('<table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered table-striped" id="data-table-container"></table>');
+
+            var keys = [];
+            for(var key in dataSource[0]) { keys.push(key); }
+
+            var oTable = $('#data-table-container').dataTable({
+            'sPaginationType': 'bootstrap',
+            'iDisplayLength': 100,
+                'aaData': dataSource,
+                'aoColumns': createTableColumns(keys),
+                'oLanguage': {
+                    'sLengthMenu': '_MENU_ records per pagina'
+                }
+            });
+            populateMapWith(dataSource);
+            // populateTimeseriesWith(dataSource);
+        }        
+
+
+
+        function populateMapWith(dataSource) {
+          var markers = new L.MarkerClusterGroup({disableClusteringAtZoom: 17});
+          var latlons = [];
+
+          for(var item in dataSource) {  
+            var latlonObj = {};
+            for(var key in dataSource[item]) {
+              if(key === 'latitude' && dataSource[item][key]) {
+                latlonObj.lat = dataSource[item][key];
+              }
+              if(key === 'longitude' && dataSource[item][key]) {
+                latlonObj.lon = dataSource[item][key];
+              }
+              latlonObj.properties = dataSource[item];
+            }
+            latlons.push(latlonObj);
+          }
+          for (var i = 0; i < latlons.length; i++) {
+            if(latlons[i].lat && latlons[i].lon) {
+              var popupText = '<h5>Eigenschappen</h5><table class="table table-striped" style="width:300px;">';
+              for(var key in latlons[i].properties) {
+                popupText += '<tr><td><small>' + latlons[i].properties[key] + '</small></tr></td>';
+              }
+              popupText += '</table>';
+              markers.addLayer(new L.Marker([latlons[i].lat, latlons[i].lon]).bindPopup(popupText));
+            }
+          };
+          window.leaflet.addLayer(markers);
+        }
+
+        //define two custom functions (asc and desc) for string sorting
+        jQuery.fn.dataTableExt.oSort['string-case-asc']  = function(x,y) {
+          return ((x < y) ? -1 : ((x > y) ?  0 : 0));
+        };
+
+        jQuery.fn.dataTableExt.oSort['string-case-desc'] = function(x,y) {
+          return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+        };
+    });
+</script>
+
+{% endblock extra_body %}

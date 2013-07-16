@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% set active_page = "home" %}
+
+{% block page_title %} - Home{% endblock page_title %}
+
+{% block content %}
+    <div class="container">
+      <div class="row" id="search">
+        <div class="span12">
+          <form class="form-search pull-right">
+            <input type="text" class="input-big search-query" placeholder="Zoektermen...">
+            <button type="submit" class="btn">
+               <i class="icon-search"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="row" id="welcome">
+        <div class="span12" style="font-family:font-family: 'Droid Sans', sans-serif;">
+          <div class="offset2">
+            <h1 style="margin-top:100px;margin-bottom:50px;font-size:4em;">Van water tot informatie</h1>
+            <a href="/{{ user.username }}/data"><button type="button" class="offset2 btn btn-large">Beginnen</button></a>
+          </div>
+          
+        </div>
+      </div>      
+    </div> <!-- /container -->
+{% endblock content %}
+
