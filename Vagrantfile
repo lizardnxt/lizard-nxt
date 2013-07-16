@@ -13,6 +13,7 @@ Vagrant::Config.run do |config|
   # doesn't already exist on the user's system.
   config.vm.box_url = "http://packages.lizardsystem.nl/precise64.box"
   config.vm.customize ["modifyvm", :id, "--memory", 2048]
+  # ENABLE THIS WHEN SYMLINKS DONT WORK!! config.vm.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
 
   # Boot with a GUI so you can see the screen. (Default is headless)
   # config.vm.boot_mode = :gui
