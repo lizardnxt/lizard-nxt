@@ -1,0 +1,77 @@
+{% set navigation_bar = [
+    ('/' + user.username + '/data', 'data', 'Data'),
+    ('/' + user.username + '/visualization', 'visualization', 'Visualisatie'),
+    ('/' + user.username + '/dashboards', 'dashboards', 'Dashboards')
+] -%}
+{% set active_page = active_page|default('home') -%}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lizard Platform{% block page_title %}{% endblock page_title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+    <link href="/static/css/nxt.css" rel="stylesheet" media="screen">
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function() {
+      $('.search-query').focus();
+    });
+    </script>    
+    
+    <!-- Bootplus -->
+    <link href="/static/css/bootplus.min.css" rel="stylesheet" media="screen">
+    <link href="/static/css/bootplus-responsive.min.css" rel="stylesheet" media="screen">
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="css/bootplus-ie7.min.css">
+    <![endif]-->
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="css/font-awesome-ie7.min.css">
+    <![endif]-->    
+      <style type="text/css">
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      </style>    
+  </head>
+  <body>
+      <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          {% if organization %}<a class="brand" title="{{ organization.description }}" href="/">{{ organization.name }}</a>{% endif %}
+          <div class="nav-collapse collapse">
+
+            
+            <ul class="nav pull-right">
+            <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% if user.email %}{{ user.email }}{% endif %} <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li class="nav-header">Account</li>
+                    <li><a href="/{{user.username}}/settings">Instellingen</a></li>
+                    <li><a href="/logout">Uitloggen</a></li>
+                  </ul>
+                </li>
+            </ul>
+            
+            <ul class="nav">
+            {% for href, id, caption in navigation_bar %}
+              <li{% if id == active_page %} class="active"{% endif
+              %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
+            {% endfor %}
+            </ul>            
+            
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>    
+    {% block content %}{% endblock content %}
+    {% block extra_body %}{% endblock extra_body %}
+  </body>
+</html>

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% set active_page = "visualization" %}
+
+
+{% block page_title %} - Visualisatie{% endblock page_title %}
+
+{% block content %}
+    <div class="container">
+      <div class="row" id="search">
+        <div class="span12">
+          <form class="form-search pull-right">
+            <input type="text" class="input-big search-query" placeholder="Zoektermen...">
+            <button type="submit" class="btn">
+               <i class="icon-search"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div> <!-- /container -->
+{% endblock content %}

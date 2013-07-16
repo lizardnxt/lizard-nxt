@@ -1,0 +1,85 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% include "security/_messages.html" %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lizard Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/css/nxt.css" rel="stylesheet" media="screen">
+    <!-- Bootplus -->
+    <link href="/static/css/bootplus.min.css" rel="stylesheet" media="screen">
+    <link href="/static/css/bootplus-responsive.min.css" rel="stylesheet" media="screen">
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="/static/css/bootplus-ie7.min.css">
+    <![endif]-->
+      <style type="text/css">
+      body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #E5E5E5;
+      }
+
+      .form-signin {
+         border: 1px solid #D8D8D8;
+         border-bottom-width: 2px;
+         border-top-width: 0;
+         background-color: #FFF;
+         max-width: 350px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #F5F5F5;
+        -webkit-border-radius: 3px;
+           -moz-border-radius: 3px;
+                border-radius: 3px;
+      }
+      .form-signin .form-signin-heading {
+         font-size: 24px;
+         font-weight: 300;
+      }
+
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+        margin-bottom: 10px;
+      }
+      .form-signin input[type="text"],
+      .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+      }
+
+      </style>    
+  </head>
+  <body>
+	<span id="lizardribbon"><a href="http://lizard.net/">Lizard Platform</a></span>
+    <div class="container">
+
+		<form action="{{ url_for_security('login') }}" method="POST" name="login_user_form" class="form-signin">
+		<h2 class="form-signin-heading">Inloggen</h2>
+		  {{ login_user_form.hidden_tag() }}
+		  {{ render_field_with_errors(login_user_form.email) }}
+		  {{ render_field_with_errors(login_user_form.password) }}
+		  {{ render_field_with_errors(login_user_form.remember) }}
+		  {{ render_field(login_user_form.next) }}
+		  {{ render_field(login_user_form.submit) }}
+		</form>
+		{% include "security/_menu.html" %}
+    </div> <!-- /container -->
+    
+    
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% set active_page = "data" %}
+
+{% block page_title %} - Data importeren{% endblock page_title %}
+
+{% block content %}
+    <div class="container">
+    
+      <div class="row" id="data">
+          <form class="form-search pull-right">
+            <input type="text" class="input-big search-query" placeholder="Zoektermen...">
+            <button type="submit" class="btn">
+               <i class="icon-search"></i>
+            </button>
+          </form>
+      </div>    
+      
+      <div class="row" id="admin-header">
+        <div class="span12">
+        <h3>Data importeren</h3>
+        <form method="post">
+            <div class="input-prepend">
+              <div class="btn-group">
+                <button class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-map-marker icon-large"></i></a></button>
+                <ul class="dropdown-menu">
+                  <li><a title="Objecten" href="#"><div class="pull-left" style="width:19px;"><i class="icon-map-marker icon-large"></i></div>&nbsp;Objecten</a></li>
+                  <li><a title="Tijdserie" href="#"><div class="pull-left" style="width:19px;"><i class="icon-time icon-large"></i></div>&nbsp;Tijdserie</a></li>
+                  <li><a title="Modellen" href="#"><div class="pull-left" style="width:19px;"><i class="icon-gears icon-large"></i></div>&nbsp;Modellen</a></li>
+                  <li><a title="Remote Sensing" href="#"><div class="pull-left" style="width:19px;"><i class="icon-barcode icon-large"></div></i>&nbsp;Remote Sensing</a></li>
+                </ul>
+              </div><!-- /btn-group -->
+              <input class="input-xxlarge" id="prependedDropdownButton" name="datasetname" type="text" placeholder="Naam van de dataset">
+            </div>        
+        </div>        
+      </div>
+      
+      <div class="row">
+
+        <div class="span12">
+
+
+          <ul class="nav nav-tabs" id="myTab">
+            <li class="active"><a href="#google" data-toggle="tab">Google Spreadsheets</a></li>
+            <li><a href="#tabular" data-toggle="tab">CSV</a></li>
+            <li><a href="#shape" data-toggle="tab">Shapefile</a></li>
+            <li><a href="#netcdf" data-toggle="tab">NetCDF</a></li>
+            <li><a href="#fews" data-toggle="tab">FEWS</a></li>
+            <li><a href="#spatialite" data-toggle="tab">Spatialite</a></li>
+          </ul>          
+          
+          <div class="tab-content">
+            <div class="tab-pane active" id="google">               
+            
+              <table class="table">
+                <tbody>
+                <tr>
+                  <td style="width:210px;">
+                    <strong>Key</strong><br/>
+                    <small><a target="_blank" href="https://drive.google.com/">Lijst</a> / 
+                    <a target="_blank" href="https://docs.google.com/spreadsheet">Nieuwe spreadsheet</a></small>
+                  </td>
+                  <td>
+                    <input type="" name="spreadsheeturl" class="input-block-level" placeholder="Plak hier uw Google Spreadsheets 'key'">
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width:210px;">
+                    <strong>Beschrijving</strong>
+                  </td>
+                  <td>
+                    <textarea rows="5" class="input-block-level" name="description"></textarea>
+                  </td>
+                </tr>                
+                <tr>
+                  <td style="width:210px;">
+                    <strong>Gebied</strong>
+                  </td>
+                  <td>
+                    <div id="smallmap" style="width:100%;height:250px;border:1px solid #ccc;"></div>
+                  </td>
+                </tr>            
+                <tr>
+                  <td>
+                    &nbsp;
+                  </td>
+                  <td>
+                    <button type="submit" class="btn">Importeren...</button>
+                  </td>
+                </tr>            
+                </tbody>
+              </table>
+              </form>          
+            </div>
+            <div class="tab-pane active" id="tabular">
+            </div>
+            
+          </div>
+                    
+        </div>
+      </div>  
+
+    </div> <!-- /container -->
+{% endblock content %}
+
+{% block extra_body %}
+<!-- Leaflet -->
+<link rel="stylesheet" href="/static/css/leaflet.css" />
+<!--[if lte IE 8]>
+   <link rel="stylesheet" href="/static/css/leaflet.ie.css" />
+<![endif]-->    
+<script src="/static/js/leaflet.js"></script>
+
+<script>
+    $('#myTab a[href="#google"]').on('shown', function(){
+        window.leaflet.invalidateSize();
+     });
+    var map = L.map('smallmap').setView([52.16719363541221,5.718383789062499], 7);
+    window.leaflet = map;
+    new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+</script>
+
+{% endblock extra_body %}
