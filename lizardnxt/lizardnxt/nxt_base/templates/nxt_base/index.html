@@ -1,0 +1,64 @@
+{% extends "nxt_base/base.html" %}
+{% load i18n %}
+
+{% block box_awesome %}
+<div id="box-awesome-wrapper" ng-controller="BoxAwesome">
+  <div id="box-awesome" class="hide" ng-class="{hide: box.disabled}">
+<!--         <form id="box-awesome-search-form">
+    <div id="box-awesome-search">
+      <input type="text">
+      <button class="icon-search" aria-label="Search">
+      </button>
+    </div>
+</form> -->
+    <div id="box-awesome-inner" class="options">
+      <button type="button" ng-click="close_box()" class="pull-right" title="{% trans "Close" %}">×</button>
+
+      <div ng-switch on="box.content.type">
+      <!-- TODO: Generate these with Django Templates -->
+        <div ng-switch-when="infopoint" ng-controller="InfoPoint">
+          <h2>{% trans "Water height" %}</h2>
+          <nxt-timeseries url="{[{ infourl }]}" height="300px"></nxt-timeseries>
+        </div>
+        <div ng-switch-when="infoline" ng-controller="InfoLine">
+          <h2>{% trans "Water profile" %}</h2>
+          <nxt-cross-section url="{[{ infourl }]}" height="300px"></nxt-cross-section>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block site_actions %}
+<ul class="nav">
+
+<!-- commented for now, because sso login confirmation is not processed properly yet. consult Erik-Jan about this SSO issue -->
+
+{% comment %}
+  {% if user.is_authenticated %}
+    <li class="dropdown">
+      <a class="dropdown-toggle"
+        data-toggle="dropdown"
+        href="#">
+        <i class="icon-user"></i> {{ user }}
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="{% url logout_with_master_removal %}?next=/">
+            {% trans "Logout" %}
+          </a>
+        </li>
+      </ul>
+    </li>
+  {% else %}
+    <li>
+      <a href="{% url login %}?next=/"><i class="icon-user"></i> {% trans "Login" %}</a>
+    </li>
+  {% endif %}
+</ul>
+{% endcomment %}
+{% endblock site_actions %}

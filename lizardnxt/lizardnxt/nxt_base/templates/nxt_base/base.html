@@ -1,0 +1,96 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html ng-app="lizard-nxt">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Lizard</title>
+    <link rel="stylesheet" type="text/css"
+          href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}leaflet/leaflet.css" />
+
+    <!-- CSS for jqueryui: "smoothness" theme -->
+    <link type="text/css"
+          href="{{ STATIC_URL }}jquery-ui-1.10.1.custom/themes/smoothness/jquery-ui.min.css"
+          rel="stylesheet"
+          media="screen, projection" />
+    <link href="{{ STATIC_URL }}font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="{{ STATIC_URL }}css/nxt_base.css" rel="stylesheet" />
+    <link href="{{ STATIC_URL }}css/lizard5.css" rel="stylesheet" />
+    {% block css %}{% endblock %}
+
+    <script>
+     var debug = true;
+    </script>
+  </head>
+
+  <body style="overflow: hidden;">
+    <header>
+      <div id="logo-row" class="navbar">
+        <div id="logo">
+
+          <a href="/" title="{% trans 'Back to homepage.' %}"><img src="{{ STATIC_URL }}lizard_ui/logo.png" alt="Lizard"></a>
+
+        </div>
+
+        <div id="site-actions">
+          {% block site_actions %}{% endblock site_actions %}
+        </div>
+      </div>
+
+    </header>
+
+    {% block content %}
+    <div id="content">
+        <div class="workspace-wms-layer lizard-map-wms-item"
+         data-workspace-wms-name="3Di"
+         data-workspace-wms-url="{{ wms_server }}"
+         data-workspace-wms-params="{
+                                    &quot;antialias&quot;: &quot;no&quot;,
+                                    &quot;styles&quot;: &quot;&quot;,
+                                    &quot;layers&quot;: &quot;basic&quot;,
+                                    &quot;format&quot;: &quot;image/png&quot;,
+                                    &quot;time&quot;: 0,
+                                    &quot;transparent&quot;: &quot;true&quot;,
+                                    &quot;nocache&quot;: &quot;yes&quot;}"
+         data-workspace-wms-options="{
+                                     &quot;buffer&quot;: 0,
+                                     &quot;isBaseLayer&quot;: false,
+                                     &quot;singleTile&quot;: true,
+                                     &quot;ratio&quot;: 1,
+                                     &quot;opacity&quot;: 0.45}"
+         data-workspace-wms-index="20"
+         data-workspace-wms-animatable="true">
+    </div>
+
+
+    <div id="map">
+        <div id="alert_placeholder"></div>
+    </div>
+
+     {% block box_awesome %}{% endblock %}
+    </div>
+
+    <div class="container-fluid">
+
+        {% block toolbar_controllers %}
+        {% endblock %}
+
+    </div>
+    {% endblock content %}
+
+    <script type="text/javascript" src="{{ STATIC_URL }}jquery/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}jquery-ui-1.10.1.custom/js/jquery-ui-1.10.1.custom.min.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}leaflet/leaflet.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}leaflet/leaflet.functionaltilelayer.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}js/leaflet.js?{{ random_string }}"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}angular/angular.min.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}js/lizard-nxt.js?{{ random_string }}"></script>
+    {% block javascript_body %} {% endblock %}
+  </body>
+</html>

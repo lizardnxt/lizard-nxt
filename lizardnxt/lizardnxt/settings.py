@@ -119,7 +119,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-    'lizardnxt',
+    'nxt_base',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

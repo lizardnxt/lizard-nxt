@@ -1,0 +1,24 @@
+{% load i18n %}
+<div id="modelChooserModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="ModelChooser">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="modelChooserModalLabel">{% trans "Load new map" %}</h3>
+    </div>
+    <div class="modal-body">
+        {% if models %}
+            <ul>
+            {% for model in models %}
+                <li>
+                    <a ng-click="choose('{{ model.name }}')">{{ model.name }}</a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>{% trans "No models available." %}</p>
+        {% endif %}
+        <div id="progressbar"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">{% trans "Cancel" %}</button>
+    </div>
+</div>
